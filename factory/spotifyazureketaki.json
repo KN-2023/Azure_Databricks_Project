@@ -1,0 +1,15 @@
+{
+	"name": "spotifyazureketaki",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fae1cbda-6e7f-4736-8a1a-b51623029342",
+		"tenantId": "f314ee75-1bd1-4fb9-925c-b86aff0af54c"
+	}
+}
