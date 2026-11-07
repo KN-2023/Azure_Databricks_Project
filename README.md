@@ -37,7 +37,67 @@
 
 **Pipeline Overview**
 
-
+<img width="500" height="200" alt="pipeline_4x" src="https://github.com/user-attachments/assets/11396e59-1aab-40b0-b14a-d32ffa2c6aef" />
 
 **Metadata-Driven ForEach Pipeline**
 
+<img width="700" height="200" alt="foreach_4x" src="https://github.com/user-attachments/assets/f8296e44-ed21-40ef-8152-cb29b5a092cd" />
+
+### Databricks Auto Loader – Streaming Ingestion
+
+- Implemented Auto Loader using `cloudFiles` to incrementally ingest files from ADLS Gen2.
+- Enabled automatic schema inference and schema evolution to handle incoming data changes.
+- Used Structured Streaming with checkpointing to maintain processing state and support fault tolerance.
+- Loaded ingested data into Delta tables for downstream transformations.
+
+### Silver Layer – Data Transformation
+
+- Applied PySpark transformations to cleanse and standardize ingested data.
+- Used Structured Streaming to process incoming records incrementally.
+- Handled schema evolution and removed unwanted or invalid data.
+- Stored transformed datasets as Delta tables for downstream CDC processing and analytics.
+
+### Delta Live Tables – CDC and SCD Processing
+<table>
+  <tr>
+    <td width="30%">
+      <img src="https://github.com/user-attachments/assets/32b7d991-520f-4860-9784-dbeefabdc571" width="500" height = "500"alt="Gold DLT Pipeline">
+    </td>
+    <td width="70%">
+      <ul>
+        <li>Implemented Delta Live Tables to manage incremental changes across Silver and Gold datasets.</li>
+        <li>Used <code>create_auto_cdc_flow()</code> to process inserts, updates, and deletes.</li>
+        <li>Applied SCD Type 1 to maintain the latest record state.</li>
+        <li>Applied SCD Type 2 to preserve historical changes using effective dates.</li>
+        <li>Used <code>modifiedDate</code> as the sequencing column to process changes in the correct order.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### Jinja2 – Metadata-Driven SQL Generation
+
+- Used Jinja2 templates to dynamically generate SQL queries based on metadata configurations.
+- Generated SELECT statements, table references, and LEFT JOIN conditions for fact and dimension tables.
+- Reduced hardcoded SQL by making query generation reusable and configurable.
+- Supported Gold-layer fact and dimension table transformations through dynamically generated queries.
+
+### Gold Layer – Analytics and Data Modeling
+
+- Generated analytics-ready fact and dimension tables using metadata-driven SQL queries.
+- Used Jinja2 templates to dynamically construct table joins and SELECT statements.
+- Implemented incremental processing to incorporate CDC changes into Gold tables.
+- Applied appropriate SCD strategies to maintain current and historical records.
+- Prepared structured datasets for downstream analytical queries and reporting.
+
+### Unity Catalog – Data Governance
+
+- Configured Unity Catalog to organize and manage data across catalogs and schemas.
+- Created storage credentials and external locations to connect ADLS Gen2 with Databricks.
+- Managed storage access and permissions through Unity Catalog.
+
+### Azure Logic Apps – Pipeline Notifications
+
+- Integrated Azure Logic Apps with Azure Data Factory to handle pipeline execution notifications.
+- Used Web Activity to trigger the Logic Apps workflow with pipeline execution details.
+- Passed pipeline name and run ID to support execution tracking.
