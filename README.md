@@ -1,4 +1,4 @@
-## Azure Lakehouse Engineering: Metadata-Driven ETL and CDC
+##  Azure Lakehouse Engineering - Metadata-Driven ETL & CDC
 
 ### Project Overview
 <img width="400" height="200" alt="Modern Data Lake Architecture Flowchart" src="https://github.com/user-attachments/assets/d4229672-bea3-4823-9091-1e34a07b5de8" />
@@ -101,3 +101,15 @@
 - Integrated Azure Logic Apps with Azure Data Factory to handle pipeline execution notifications.
 - Used Web Activity to trigger the Logic Apps workflow with pipeline execution details.
 - Passed pipeline name and run ID to support execution tracking.
+
+### Performance Optimization & Engineering Impact
+
+- **Incremental Data Loading:** Implemented CDC watermark-based ingestion to process only new and modified records, eliminating repeated full-table extraction and reducing unnecessary data transfers.
+- **Streaming Optimization:** Configured Azure Auto Loader with checkpointing to track processed files, prevent redundant ingestion, and support reliable stream recovery.
+- **Incremental CDC Processing:** Integrated Delta Live Tables CDC to apply source changes incrementally rather than rebuilding target tables.
+- **SCD Type 1:** Maintained the latest dimension record state, ensuring up-to-date analytical data.
+- **SCD Type 2:** Preserved historical record versions, enabling historical tracking and point-in-time analysis.
+- **Metadata-Driven ADF Orchestration:** Consolidated ingestion logic for five source tables into a reusable pipeline, reducing duplicated pipeline configurations.
+- **Jinja2 SQL Generation:** Used metadata-driven templates to dynamically generate fact and dimension queries, minimizing hardcoded SQL and improving maintainability.
+
+**Overall Impact:** Built a reusable Azure Lakehouse pipeline that minimizes redundant processing, improves data reliability, preserves historical changes, and delivers analytics-ready Gold-layer datasets.
