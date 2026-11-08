@@ -1,4 +1,4 @@
-##  Azure Lakehouse Engineering - Metadata-Driven ETL & CDC
+## Azure Databricks Lakehouse – ETL & Data Integration
 
 ### Project Overview
 <img width="400" height="200" alt="Modern Data Lake Architecture Flowchart" src="https://github.com/user-attachments/assets/d4229672-bea3-4823-9091-1e34a07b5de8" />
